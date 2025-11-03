@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Lando Norris - Championnat F1 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #fff5eb 0%, #ffffff 50%, #eff6ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+            border-left: 6px solid #f97316;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .current-status {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 2px solid #fb923c;
+            border-radius: 15px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #f97316;
+        }
+
+        .stat-subtext {
+            font-size: 1.1em;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .probability-section {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 40px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .probability-section h2 {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .prob-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .prob-box {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .prob-label {
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .prob-percentage {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .prob-description {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .realistic-range {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .range-bar {
+            background: rgba(255,255,255,0.3);
+            height: 40px;
+            border-radius: 25px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .range-fill {
+            background: white;
+            height: 100%;
+            width: 65%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #059669;
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            font-size: 1.8em;
+            color: #1f2937;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .race-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .race-item {
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .race-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 5px 15px rgba(59,130,246,0.2);
+        }
+
+        .race-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .race-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .race-date {
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+
+        .race-points {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .sprint-badge {
+            display: inline-block;
+            background: #ddd6fe;
+            color: #7c3aed;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .race-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            font-size: 0.9em;
+        }
+
+        .detail-label {
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        .strength-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .strength-excellent {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .strength-good {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .strength-average {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .scenario-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .scenario-card:hover {
+            border-color: #8b5cf6;
+            box-shadow: 0 5px 15px rgba(139,92,246,0.2);
+        }
+
+        .scenario-card.active {
+            border-color: #8b5cf6;
+            background: #f5f3ff;
+            box-shadow: 0 5px 20px rgba(139,92,246,0.3);
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .scenario-desc {
+            font-size: 0.85em;
+            color: #6b7280;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .scenario-prob {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .scenario-prob-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #8b5cf6;
+        }
+
+        .scenario-prob-label {
+            font-size: 0.75em;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .standings {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%);
+            border: 2px solid #a78bfa;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .standings h3 {
+            font-size: 1.3em;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .standings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .driver-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .position-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.2em;
+        }
+
+        .pos-1 { background: #fbbf24; }
+        .pos-2 { background: #d1d5db; }
+        .pos-3 { background: #fdba74; }
+
+        .driver-name {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.1em;
+        }
+
+        .driver-points-change {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .driver-points {
+            text-align: right;
+        }
+
+        .points-total {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .points-gained {
+            font-size: 0.9em;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .result-banner {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .result-banner.champion {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+        }
+
+        .result-banner.no-title {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+        }
+
+        .result-text {
+            font-weight: bold;
+        }
+
+        .result-subtext {
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .factors-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .factor-item {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .factor-name {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .impact-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .impact-very-positive {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .impact-positive {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .impact-negative {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .impact-uncertain {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .factor-detail {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .weight-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .weight-fill {
+            background: #3b82f6;
+            height: 100%;
+            transition: width 0.5s;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 40px;
+            color: white;
+            margin-top: 30px;
+        }
+
+        .conclusion h2 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+        }
+
+        .conclusion-points {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .conclusion-point {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .conclusion-point strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .prob-percentage {
+                font-size: 3em;
+            }
+            
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .card, .header, .probability-section {
+                box-shadow: none;
+                border: 1px solid #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏆 Chances de Lando Norris</h1>
+            <p class="subtitle">Championnat du Monde F1 2025</p>
+            
+            <div class="current-status">
+                <div class="stat-box">
+                    <div class="stat-label">Leader Actuel</div>
+                    <div class="stat-value">Lando Norris</div>
+                    <div class="stat-subtext">357 points</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Avance sur Verstappen</div>
+                    <div class="stat-value">+36 pts</div>
+                    <div class="stat-subtext">Piastri à -1 point</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Courses Restantes</div>
+                    <div class="stat-value">4</div>
+                    <div class="stat-subtext">112 points disponibles</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Probabilités -->
+        <div class="probability-section">
+            <h2>🎯 Probabilité de titre</h2>
+            
+            <div class="prob-grid">
+                <div class="prob-box">
+                    <div class="prob-label">ESTIMATION BASSE</div>
+                    <div class="prob-percentage">55%</div>
+                    <div class="prob-description">
+                        Si Verstappen retrouve sa forme du Texas/Austin et que Norris fait quelques erreurs
+                    </div>
+                </div>
+                
+                <div class="prob-box">
+                    <div class="prob-label">ESTIMATION HAUTE</div>
+                    <div class="prob-percentage">75%</div>
+                    <div class="prob-description">
+                        Si McLaren maintient sa domination du Mexique et Norris gère bien la pression
+                    </div>
+                </div>
+            </div>
+
+            <div class="realistic-range">
+                <p class="prob-label">📊 FOURCHETTE RÉALISTE</p>
+                <div class="range-bar">
+                    <div class="range-fill">60-70%</div>
+                </div>
+                <p style="font-size: 0.9em; opacity: 0.9;">
+                    Basé sur la forme actuelle, l'avance au championnat et les circuits restants
+                </p>
+            </div>
+        </div>
+
+        <!-- Calendrier -->
+        <div class="card">
+            <h2>📅 Courses restantes</h2>
+            
+            <div class="race-grid">
+                <div class="race-item">
+                    <div class="race-header">
+                        <div>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #fb923c; border-radius: 50%; margin-right: 12px;"></span>
+                            <span class="race-name">São Paulo (Brésil)</span>
+                            <span class="sprint-badge">Sprint +8</span>
+                            <div class="race-date">9 novembre</div>
+                        </div>
+                        <div class="race-points">34 pts</div>
+                    </div>
+                    <div class="race-details">
+                        <div>
+                            <div class="detail-label">Caractéristiques</div>
+                            <div class="detail-value">Pluie probable, Verstappen excellent ici</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Force de Norris</div>
+                            <span class="strength-badge strength-average">Moyenne</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="race-item">
+                    <div class="race-header">
+                        <div>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #a78bfa; border-radius: 50%; margin-right: 12px;"></span>
+                            <span class="race-name">Las Vegas</span>
+                            <div class="race-date">22 novembre</div>
+                        </div>
+                        <div class="race-points">26 pts</div>
+                    </div>
+                    <div class="race-details">
+                        <div>
+                            <div class="detail-label">Caractéristiques</div>
+                            <div class="detail-value">Circuit urbain, températures froides</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Force de Norris</div>
+                            <span class="strength-badge strength-good">Bonne</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="race-item">
+                    <div class="race-header">
+                        <div>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #2dd4bf; border-radius: 50%; margin-right: 12px;"></span>
+                            <span class="race-name">Qatar</span>
+                            <div class="race-date">30 novembre</div>
+                        </div>
+                        <div class="race-points">26 pts</div>
+                    </div>
+                    <div class="race-details">
+                        <div>
+                            <div class="detail-label">Caractéristiques</div>
+                            <div class="detail-value">Chaleur extrême, usure élevée</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Force de Norris</div>
+                            <span class="strength-badge strength-excellent">Excellente</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="race-item">
+                    <div class="race-header">
+                        <div>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #60a5fa; border-radius: 50%; margin-right: 12px;"></span>
+                            <span class="race-name">Abu Dhabi</span>
+                            <div class="race-date">7 décembre</div>
+                        </div>
+                        <div class="race-points">26 pts</div>
+                    </div>
+                    <div class="race-details">
+                        <div>
+                            <div class="detail-label">Caractéristiques</div>
+                            <div class="detail-value">Finale sous les lumières</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Force de Norris</div>
+                            <span class="strength-badge strength-good">Bonne</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulateur de scénarios -->
+        <div class="card">
+            <h2>📊 Simulateur de scénarios</h2>
+            
+            <div class="scenarios-grid">
+                <div class="scenario-card active" onclick="showScenario('conservative')">
+                    <div class="scenario-title">Scénario Conservateur</div>
+                    <div class="scenario-desc">Norris termine régulièrement devant Verstappen mais sans tout gagner</div>
+                    <div class="scenario-prob">
+                        <div class="scenario-prob-value">45-55%</div>
+                        <div class="scenario-prob-label">Probabilité titre</div>
+                    </div>
+                </div>
+
+                <div class="scenario-card" onclick="showScenario('moderate')">
+                    <div class="scenario-title">Scénario Modéré</div>
+                    <div class="scenario-desc">Norris domine 3 courses sur 4, quelques erreurs de Verstappen</div>
+                    <div class="scenario-prob">
+                        <div class="scenario-prob-value">55-70%</div>
+                        <div class="scenario-prob-label">Probabilité titre</div>
+                    </div>
+                </div>
+
+                <div class="scenario-card" onclick="showScenario('optimal')">
+                    <div class="scenario-title">Scénario Optimal</div>
+                    <div class="scenario-desc">Norris gagne tout, Verstappen a des problèmes mécaniques/incidents</div>
+                    <div class="scenario-prob">
+                        <div class="scenario-prob-value">70-85%</div>
+                        <div class="scenario-prob-label">Probabilité titre</div>
+                    </div>
+                </div>
+
+                <div class="scenario-card" onclick="showScenario('catastrophic')">
+                    <div class="scenario-title">Scénario Catastrophique</div>
+                    <div class="scenario-desc">Verstappen domine comme au Texas/Brésil 2024, Norris fait des erreurs</div>
+                    <div class="scenario-prob">
+                        <div class="scenario-prob-value">5-15%</div>
+                        <div class="scenario-prob-label">Probabilité titre</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="standings-container" class="standings">
+                <!-- Contenu dynamique -->
+            </div>
+        </div>
+
+        <!-- Facteurs clés -->
+        <div class="card">
+            <h2>📈 Facteurs déterminants</h2>
+            
+            <div class="factors-list">
+                <div class="factor-item">
+                    <div class="factor-header">
+                        <div class="factor-name">Avance actuelle sur Verstappen</div>
+                        <span class="impact-badge impact-very-positive">Très positif</span>
+                    </div>
+                    <div class="factor-detail">+36 points - Un coussin confortable</div>
+                    <div class="weight-bar">
+                        <div class="weight-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+
+                <div class="factor-item">
+                    <div class="factor-header">
+                        <div class="factor-name">McLaren MCL39 dominante</div>
+                        <span class="impact-badge impact-very-positive">Très positif</span>
+                    </div>
+                    <div class="factor-detail">Meilleure voiture sur la grille actuellement</div>
+                    <div class="weight-bar">
+                        <div class="weight-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <div class="factor-item">
+                    <div class="factor-header">
+                        <div class="factor-name">Piastri à 1 point</div>
+                        <span class="impact-badge impact-negative">Négatif</span>
+                    </div>
+                    <div class="factor-detail">Risque de cannibalisation entre coéquipiers</div>
+                    <div class="weight-bar">
+                        <div class="weight-fill" style="width: 70%;"></div>
+                    </div>
+                </div>
+
+                <div class="factor-item">
+                    <div class="factor-header">
+                        <div class="factor-name">Red Bull en difficulté</div>
+                        <span class="impact-badge impact-positive">Positif</span>
+                    </div>
+                    <div class="factor-detail">RB21 moins compétitive qu'en 2024</div>
+                    <div class="weight-bar">
+                        <div class="weight-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+
+                <div class="factor-item">
+                    <div class="factor-header">
+                        <div class="factor-name">Verstappen en conditions extrêmes</div>
+                        <span class="impact-badge impact-negative">Négatif</span>
+                    </div>
+                    <div class="factor-detail">Redoutable sous la pluie (Brésil)</div>
+                    <div class="weight-bar">
+                        <div class="weight-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+
+                <div class="factor-item">
+                    <div class="factor-header">
+                        <div class="factor-name">Gestion de la pression</div>
+                        <span class="impact-badge impact-uncertain">Incertain</span>
+                    </div>
+                    <div class="factor-detail">Première vraie bataille pour le titre de Norris</div>
+                    <div class="weight-bar">
+                        <div class="weight-fill" style="width: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="conclusion">
+            <h2>💡 Conclusion</h2>
+            <div class="conclusion-points">
+                <div class="conclusion-point">
+                    <strong>Position favorable :</strong>
+                    Avec 36 points d'avance sur Verstappen et seulement 4 courses restantes, Norris est en position de force. Même s'il termine 2ème derrière Verstappen à chaque course, il remporterait le titre.
+                </div>
+                <div class="conclusion-point">
+                    <strong>La menace Piastri :</strong>
+                    Son coéquipier à 1 point représente un défi unique. McLaren devra peut-être faire des choix d'équipe délicats, surtout si Piastri est plus rapide sur certains circuits.
+                </div>
+                <div class="conclusion-point">
+                    <strong>Le facteur Brésil :</strong>
+                    La course sprint au Brésil sous la pluie probable est le plus grand danger. Verstappen y est redoutable, et un mauvais résultat de Norris pourrait tout relancer.
+                </div>
+                <div class="conclusion-point">
+                    <strong>Verdict final :</strong>
+                    Entre 60% et 70% de chances de devenir champion. Norris a son destin entre ses mains, mais il devra gérer la pression de sa première vraie bataille pour le titre.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = {
+            conservative: {
+                norris: 437,
+                piastri: 428,
+                verstappen: 385,
+                norrisWins: true
+            },
+            moderate: {
+                norris: 449,
+                piastri: 424,
+                verstappen: 373,
+                norrisWins: true
+            },
+            optimal: {
+                norris: 463,
+                piastri: 416,
+                verstappen: 353,
+                norrisWins: true
+            },
+            catastrophic: {
+                norris: 413,
+                piastri: 436,
+                verstappen: 417,
+                norrisWins: false
+            }
+        };
+
+        const currentStandings = {
+            norris: 357,
+            piastri: 356,
+            verstappen: 321
+        };
+
+        function showScenario(scenarioName) {
+            // Mettre à jour les cartes actives
+            document.querySelectorAll('.scenario-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.target.closest('.scenario-card').classList.add('active');
+
+            // Calculer et afficher les résultats
+            const result = scenarios[scenarioName];
+            const drivers = [
+                { name: 'Lando Norris', points: result.norris, current: currentStandings.norris, color: 'orange' },
+                { name: 'Oscar Piastri', points: result.piastri, current: currentStandings.piastri, color: 'orange' },
+                { name: 'Max Verstappen', points: result.verstappen, current: currentStandings.verstappen, color: 'blue' }
+            ].sort((a, b) => b.points - a.points);
+
+            let html = '<h3>Classement final projeté</h3><div class="standings-list">';
+            
+            drivers.forEach((driver, idx) => {
+                const posClass = idx === 0 ? 'pos-1' : idx === 1 ? 'pos-2' : 'pos-3';
+                html += `
+                    <div class="driver-row">
+                        <div class="driver-info">
+                            <div class="position-badge ${posClass}">${idx + 1}</div>
+                            <div>
+                                <div class="driver-name">${driver.name}</div>
+                                <div class="driver-points-change">${driver.current} pts → <strong>${driver.points} pts</strong></div>
+                            </div>
+                        </div>
+                        <div class="driver-points">
+                            <div class="points-total">${driver.points}</div>
+                            <div class="points-gained">+${driver.points - driver.current} pts</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            if (result.norrisWins) {
+                html += `
+                    <div class="result-banner champion">
+                        <span style="font-size: 2em;">🏆</span>
+                        <div>
+                            <div class="result-text" style="color: #065f46;">Norris Champion du Monde !</div>
+                            <div class="result-subtext" style="color: #059669;">Dans ce scénario, Norris remporte son premier titre</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="result-banner no-title">
+                        <span style="font-size: 2em;">⚠️</span>
+                        <div>
+                            <div class="result-text" style="color: #991b1b;">Norris rate le titre</div>
+                            <div class="result-subtext" style="color: #dc2626;">Dans ce scénario, Norris ne parvient pas à conclure</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('standings-container').innerHTML = html;
+        }
+
+        // Afficher le scénario conservateur par défaut au chargement
+        window.addEventListener('DOMContentLoaded', () => {
+            showScenario('conservative');
+        });
+    </script>
+</body>
+</html>
